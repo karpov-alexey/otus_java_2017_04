@@ -23,7 +23,7 @@ public class ObjectSize
     }
 
     static void calculatecalculateByMemoryAllocation(ObjectFactory factory, int objectCount, int measureCount) throws FactoryException, InterruptedException {
-        System.out.println("Calculated object size for class" + factory.getObjectClass().getCanonicalName());
+        System.out.println("Calculated object size for class " + factory.getObjectClass().getCanonicalName());
         for (int i = 0; i < measureCount; ++i) {
 
             Object[] objects = new Object[objectCount];
