@@ -3,6 +3,7 @@ package ru.otus;
 import ru.otus.factory.ClassFactory;
 import ru.otus.factory.FactoryException;
 import ru.otus.factory.ObjectFactory;
+import java.util.Arrays;
 
 
 /**
@@ -24,13 +25,14 @@ public class ObjectSize
     static void calculatecalculateByMemoryAllocation(ObjectFactory factory, int objectCount, int measureCount) throws FactoryException, InterruptedException {
         System.out.println("Calculated object size for class" + factory.getObjectClass().getCanonicalName());
         for (int i = 0; i < measureCount; ++i) {
-            System.gc();
-            Thread.sleep(3000);
+
             Object[] objects = new Object[objectCount];
 
+            System.gc();
+            Thread.sleep(3000);
             //System.out.println("Before allocate");
             //printMemoryInfo();
-;
+
             long usedMemoryBefore = usedMemory();
             //printMemoryInfo();
 

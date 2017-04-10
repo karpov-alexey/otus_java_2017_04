@@ -30,7 +30,7 @@ public class Main  {
     public static void main(String[] args) throws FactoryException, InterruptedException, ClassNotFoundException {
 
         System.out.println("Running application with pid: " + ManagementFactory.getRuntimeMXBean().getName());
-        int objectCount = 1_000_000;
+        int objectCount = 5_000_000;
 
         if (args.length > 0)
         {
