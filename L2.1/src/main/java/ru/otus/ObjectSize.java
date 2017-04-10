@@ -1,23 +1,60 @@
 package ru.otus;
 
+import ru.otus.factory.ClassFactory;
+import ru.otus.factory.FactoryException;
+import ru.otus.factory.ObjectFactory;
+
+
 /**
  * Created by Alexey on 08.04.2017.
  */
 public class ObjectSize
 {
-    private Class<?> type;
-    private final int count;
 
-    Object[] objects;
-
-    ObjectSize(Class<?> type, int count)
-    {
-        this.type = type;
-        this.count = count;
-        objects = new Object[count];
+    static void calculatecalculateByMemoryAllocation(Class<?> type, int objectCount, int measureCount) throws FactoryException, InterruptedException {
+        ObjectFactory factory = new ClassFactory(type);
+        calculatecalculateByMemoryAllocation(factory, objectCount, measureCount);
     }
 
-    long getAvailableMemory() {
+    static void calculatecalculateByMemoryAllocation(String className, int objectCount, int measureCount) throws FactoryException, InterruptedException, ClassNotFoundException {
+        ObjectFactory factory = new ClassFactory(Class.forName(className));
+        calculatecalculateByMemoryAllocation(factory, objectCount, measureCount);
+    }
+
+    static void calculatecalculateByMemoryAllocation(ObjectFactory factory, int objectCount, int measureCount) throws FactoryException, InterruptedException {
+        System.out.println("Calculated object size for class" + factory.getObjectClass().getCanonicalName());
+        for (int i = 0; i < measureCount; ++i) {
+            System.gc();
+            Thread.sleep(3000);
+            Object[] objects = new Object[objectCount];
+
+            //System.out.println("Before allocate");
+            //printMemoryInfo();
+;
+            long usedMemoryBefore = usedMemory();
+            //printMemoryInfo();
+
+            System.out.println("Allocating memory. Waiting...");
+
+            for (int j = 0; j < objectCount; ++j) {
+                objects[j] = factory.createObject();
+            }
+
+//            printMemoryInfo();
+//            System.gc();
+//            Thread.sleep(3000);
+//            printMemoryInfo();
+
+            long usedMemoryAfter = usedMemory();
+            double size = (usedMemoryAfter - usedMemoryBefore) / (double) objectCount;
+            System.out.println("Used memory: before = " + usedMemoryBefore + ", after = " + usedMemoryAfter);
+            System.out.println(i + ". Size of " + factory.getObjectClass().getCanonicalName() + " (calculated by memory allocation) = " + size);
+
+            System.out.println("Clear memory. Waiting...");
+        }
+    }
+
+    static long printMemoryInfo() {
         System.out.println("=== Memory info =======");
         Runtime runtime = Runtime.getRuntime();
         long totalMemory = runtime.totalMemory(); // current heap allocated to the VM process
@@ -34,31 +71,28 @@ public class ObjectSize
         return availableMemory;
     }
 
-    void calculateByMemoryAllocationInstrument(int cycleCount) throws IllegalAccessException, InstantiationException, InterruptedException {
-        for (int i = 0; i < cycleCount; ++i) {
-            objects = new Object[count];
-            System.gc();
-            Thread.sleep(10000);
-            System.out.println("Before allocate");
-            long before = getAvailableMemory();
 
-            for (int j = 0; j < objects.length; ++j) {
-                objects[j] = type.newInstance();
-            }
-
-            Thread.sleep(1000);
-
-            System.out.println("After allocate");
-            long after = getAvailableMemory();
-            double size = (before - after) / (double) count;
-            System.out.println("Size of " + type.getCanonicalName() + " (calculated by memory allocation instrument) = " + size);
-        }
+    static long usedMemory()
+    {
+        Runtime runtime = Runtime.getRuntime();
+        return runtime.totalMemory() - runtime.freeMemory();
     }
 
-    void calculateByJavaAgentInstrument() throws IllegalAccessException, InstantiationException, InterruptedException {
+
+    static void calculateByJavaAgentInstrument(Class<?> type) throws FactoryException {
+        ObjectFactory factory = new ClassFactory(type);
+        calculateByJavaAgentInstrument(factory);
+    }
+
+    static void calculateByJavaAgentInstrument(String className) throws ClassNotFoundException, FactoryException {
+        ObjectFactory factory = new ClassFactory(Class.forName(className));
+        calculateByJavaAgentInstrument(factory);
+    }
+
+    static void calculateByJavaAgentInstrument(ObjectFactory factory) throws FactoryException {
         try {
-            long size = JavaAgent.getObjectSize(type.newInstance());
-            System.out.println("Size of " +  type.getCanonicalName() + " (calculated by java agent instrument) = " + size);
+            long size = JavaAgent.getObjectSize(factory.createObject());
+            System.out.println("Size of " +  factory.getObjectClass().getCanonicalName() + " (calculated by java agent instrument) = " + size);
         }
         catch (JavaAgent.NonInitializeJavaAgent ex) {
             System.out.println("Java agent is not initialized. Run application: java -javaagent:object_size.jar -jar object_size.jar");
