@@ -29,7 +29,7 @@ public class ObjectSize
             Object[] objects = new Object[objectCount];
 
             System.gc();
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             //System.out.println("Before allocate");
             //printMemoryInfo();
 
@@ -43,15 +43,17 @@ public class ObjectSize
             }
 
 //            printMemoryInfo();
-//            System.gc();
-//            Thread.sleep(3000);
+            System.gc();
+            Thread.sleep(1000);
 //            printMemoryInfo();
 
             long usedMemoryAfter = usedMemory();
             double size = (usedMemoryAfter - usedMemoryBefore) / (double) objectCount;
             System.out.println("Used memory: before = " + usedMemoryBefore + ", after = " + usedMemoryAfter);
             System.out.println(i + ". Size of " + factory.getObjectClass().getCanonicalName() + " (calculated by memory allocation) = " + size);
-
+            if (objectCount == 0) {
+                objects[0] = null;
+            }
             System.out.println("Clear memory. Waiting...");
         }
     }
