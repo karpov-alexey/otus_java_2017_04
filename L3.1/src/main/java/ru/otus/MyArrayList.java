@@ -142,7 +142,7 @@ public class  MyArrayList<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        if (index >= size)
+        if (index >= size || index < 0)
             throw new IndexOutOfBoundsException("Wrong index: " + index);
 
         return elements[index];
