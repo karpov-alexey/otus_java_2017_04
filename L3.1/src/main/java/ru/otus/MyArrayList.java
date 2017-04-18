@@ -3,7 +3,10 @@ package ru.otus;
 import java.util.*;
 
 /**
- * Итераторы без проверки модифакации
+ * Итераторы без проверки модифакации коллекции
+ * Реализованно без  AbstractList<E>, RandomAccess, Cloneable, java.io.Serializable
+ * Некоторые операции также не реализованны и они выбрасывают исключения  UnsupportedOperationException,
+ * потом надо дореализовать
  */
 public class  MyArrayList<E> implements List<E> {
 
@@ -14,7 +17,7 @@ public class  MyArrayList<E> implements List<E> {
 
     MyArrayList(int capacity)
     {
-        if (capacity > 0) {
+        if (capacity >= 0) {
             elements = (E[])new Object[capacity];
         } else {
             throw new IllegalArgumentException("Wrong Capacity: "+ capacity);
@@ -24,6 +27,16 @@ public class  MyArrayList<E> implements List<E> {
     MyArrayList()
     {
         elements = (E[])new Object[DEFAULT_CAPACITY];
+    }
+
+    public MyArrayList(Collection<? extends E> c) {
+        elements = (E[])new Object[c.size()];
+        int i = 0;
+        for(E obj : c)
+        {
+            elements[i++] = obj;
+        }
+        size = c.size();
     }
 
     @Override
@@ -54,7 +67,7 @@ public class  MyArrayList<E> implements List<E> {
     private void reallocateArray()
     {
         System.out.println("reallocateArray");
-        if (elements.length == 0)
+        if (elements.length < DEFAULT_CAPACITY)
         {
             elements = (E[])new Object[DEFAULT_CAPACITY];
             return;
@@ -72,6 +85,20 @@ public class  MyArrayList<E> implements List<E> {
         }
         elements[size++] = e;
         return true;
+    }
+
+    @Override
+    public void add(int index, E element) {
+        if (index > size || index < 0)
+            throw new IndexOutOfBoundsException("Wrong index " + index );
+        if (size >= elements.length)
+        {
+            reallocateArray();
+        }
+        System.arraycopy(elements, index, elements, index + 1,
+                size - index);
+        elements[index] = element;
+        size++;
     }
 
     @Override
@@ -131,16 +158,7 @@ public class  MyArrayList<E> implements List<E> {
         return old;
     }
 
-    @Override
-    public void add(int index, E element) {
-        if (size >= elements.length)
-        {
-            reallocateArray();
-        }
-        System.arraycopy(elements, index, elements, index + 1,
-                size - index);
-        elements[index] = element;
-    }
+
 
     @Override
     public E remove(int index) {
@@ -174,12 +192,12 @@ public class  MyArrayList<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return listIterator();
+        return new MyListIterator();
     }
 
     @Override
     public ListIterator<E> listIterator() {
-            return listIterator(0);
+            return new MyListIterator();
     }
 
     @Override
@@ -188,13 +206,21 @@ public class  MyArrayList<E> implements List<E> {
             throw new IndexOutOfBoundsException("Index: "+index);
         }
 
-        return new MyListIterator();
+        return new MyListIterator(index);
     }
 
-    class MyListIterator implements ListIterator<E> {
+    class MyListIterator implements ListIterator<E>, Iterator<E> {
 
         int nextIndex = 0;
         int lastReturn = -1;
+
+        MyListIterator() {
+            nextIndex = 0;
+        }
+
+        MyListIterator(int index) {
+            nextIndex = index;
+        }
 
         @Override
         public boolean hasNext() {
@@ -294,5 +320,10 @@ public class  MyArrayList<E> implements List<E> {
             }
             sb.append(", ");
         }
+    }
+
+    public int capacity()
+    {
+        return elements.length;
     }
 }
