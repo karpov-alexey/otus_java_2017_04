@@ -25,6 +25,7 @@ public class Main  {
             objectCount = 1 * 1000 * 1000;
             cycleCount = 100;
         }
+        System.out.println("objectCount = " + objectCount + "    cycleCount = " + cycleCount);
 
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         ObjectName name = new ObjectName("ru.otus:type=Benchmark");

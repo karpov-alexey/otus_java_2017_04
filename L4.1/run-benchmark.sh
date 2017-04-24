@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 appPath="target/gc_statistics.jar"
-
+objectCount="5000000";
+cycleCount="10";
 
 options=(
     "-Xms512m -Xms512m -XX:+UseSerialGC"
@@ -12,12 +13,12 @@ options=(
     "-Xms512m -Xms512m -XX:+UseG1GC"
 )
 
-if [ ! -f $appPath ]; then
+#if [ ! -f $appPath ]; then
     mvn clean package
-fi
+#fi
 
 for opts in "${options[@]}"; do
+    printf "\n ====================================================\n"
     echo "Running with opts: $opts"
-    java $opts -jar $appPath
-    echo "===================================================="
+    java $opts -jar $appPath $objectCount $cycleCount
 done;

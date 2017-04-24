@@ -11,6 +11,7 @@ class Benchmark implements BenchmarkMBean {
     private int cycleCount = 0;
 
 
+
     void run() {
 
         GCStatistics gcStatistics = new GCStatistics();
@@ -23,10 +24,11 @@ class Benchmark implements BenchmarkMBean {
                 objects[currentObject] = new String(new char[0]);
                 ++n;
             }
-
+            System.out.printf("\rcycle=%d from %d", currentCycle, cycleCount);
             //logs(n, currentCycle);
             objects = new Object[objectCount];
         }
+        System.out.printf("\r");
 
         gcStatistics.printStatistics();
 

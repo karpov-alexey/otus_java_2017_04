@@ -28,10 +28,10 @@ public class GCStatistics {
     private final CountDownLatch doneSignal = new CountDownLatch(2);
     private List<Runnable> registration = new ArrayList<>();
     TreeMap<String, Info> infoMap = new TreeMap<>();
-
+    Object lock = new Object();
 
     public GCStatistics() {
-        installGCMonitoring();
+        runGCMonitoring();
     }
 
     public void printStatistics()
@@ -40,12 +40,23 @@ public class GCStatistics {
             String name = entry.getKey();
             Info info = entry.getValue();
 
-            System.out.println(name + " => " + info.durations);
+            long totalTime = 0;
+            for (Long duration : info.durations)
+            {
+                totalTime += duration;
+            }
+
+            System.out.println(name + ": " + "run count = " + info.durations.size() +
+                    "    total time of gc running(ms) = " + totalTime);
+
+
+            System.out.println("all durations(ms): " + info.durations);
+
         }
     }
 
 
-    private void installGCMonitoring() {
+    private void runGCMonitoring() {
         List<GarbageCollectorMXBean> gcbeans = java.lang.management.ManagementFactory.getGarbageCollectorMXBeans();
 
         for (GarbageCollectorMXBean gcbean : gcbeans) {
@@ -61,12 +72,15 @@ public class GCStatistics {
                     long duration = info.getGcInfo().getDuration();
                     String gctype = info.getGcAction();
                     String name = info.getGcName();
-                    String fullName = gctype + ":" + name;
 
-                    if (infoMap.get(fullName) == null) {
-                        infoMap.put(fullName, new Info());
+                    synchronized(lock) {
+                        if (infoMap.get(name) == null) {
+                            infoMap.put(name, new Info());
+                        }
+                        infoMap.get(name).add(duration);
                     }
-                    infoMap.get(fullName).add(duration);
+
+                    //System.out.println(name);
 
                 }
             };
