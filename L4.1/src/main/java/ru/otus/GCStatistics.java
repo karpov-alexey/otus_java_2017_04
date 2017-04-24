@@ -7,8 +7,10 @@ import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
 import javax.management.openmbean.CompositeData;
 import java.lang.management.GarbageCollectorMXBean;
-import java.util.*;
-import java.util.concurrent.CountDownLatch;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Alexey on 24.04.2017.
@@ -25,7 +27,6 @@ class Info
 
 
 public class GCStatistics {
-    private final CountDownLatch doneSignal = new CountDownLatch(2);
     private List<Runnable> registration = new ArrayList<>();
     TreeMap<String, Info> infoMap = new TreeMap<>();
     Object lock = new Object();
@@ -36,22 +37,23 @@ public class GCStatistics {
 
     public void printStatistics()
     {
-        for(Map.Entry<String,Info> entry : infoMap.entrySet()) {
-            String name = entry.getKey();
-            Info info = entry.getValue();
+        synchronized(lock) {
+            for (Map.Entry<String, Info> entry : infoMap.entrySet()) {
+                String name = entry.getKey();
+                Info info = entry.getValue();
 
-            long totalTime = 0;
-            for (Long duration : info.durations)
-            {
-                totalTime += duration;
+                long totalTime = 0;
+                for (Long duration : info.durations) {
+                    totalTime += duration;
+                }
+
+                System.out.println(name + ": " + "run count = " + info.durations.size() +
+                        "    total time of gc running(ms) = " + totalTime);
+
+
+                System.out.println("all durations(ms): " + info.durations);
+
             }
-
-            System.out.println(name + ": " + "run count = " + info.durations.size() +
-                    "    total time of gc running(ms) = " + totalTime);
-
-
-            System.out.println("all durations(ms): " + info.durations);
-
         }
     }
 
