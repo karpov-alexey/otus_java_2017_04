@@ -8,28 +8,26 @@ import org.junit.Test;
 public class AssertTest {
     @Test(expected = java.lang.AssertionError.class)
     public void assertFail() {
-        Assert.assertFail("fail as expected");
+        Assert.fail("fail assert");
     }
 
+    @Test
+    public void assertTrue_true() {
+        Assert.assertTrue("assert true", true);
+    }
 
     @Test(expected = java.lang.AssertionError.class)
     public void assertTrue_false() {
-        Assert.assertTrue("test Assert true", false);
+        Assert.assertTrue("assert false", false);
     }
-
-    @Test
-    public void assertTrue() {
-        Assert.assertTrue("test Assert true", true);
-    }
-
 
     @Test(expected = java.lang.AssertionError.class)
-    public void assertNotNull_null() {
-        Assert.assertNotNull("test Assert null", null);
+    public void assertNotNull_Null() {
+        Assert.assertNotNull("assert not null(false)", null);
     }
 
     @Test
-    public void assertNotNull() {
-        Assert.assertNotNull("test Assert null", "notNull");
+    public void assertNotNull_noNull() {
+        Assert.assertNotNull("assert not null (true)", "notNull");
     }
 }

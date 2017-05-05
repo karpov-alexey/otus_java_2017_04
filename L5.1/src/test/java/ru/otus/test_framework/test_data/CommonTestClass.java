@@ -2,6 +2,7 @@ package ru.otus.test_framework.test_data;
 
 import ru.otus.test_framework.annotations.After;
 import ru.otus.test_framework.annotations.Before;
+import ru.otus.test_framework.annotations.Ignore;
 import ru.otus.test_framework.annotations.Test;
 
 /**
@@ -26,6 +27,12 @@ public class CommonTestClass {
 
     @Test
     public void test2() {
+
+    }
+
+    @Test
+    @Ignore
+    public void ignoreTest() {
 
     }
 

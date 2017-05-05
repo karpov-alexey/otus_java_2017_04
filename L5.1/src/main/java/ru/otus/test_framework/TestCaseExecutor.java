@@ -1,5 +1,6 @@
 package ru.otus.test_framework;
 
+import ru.otus.test_framework.annotations.Ignore;
 import ru.otus.test_framework.exceptions.TestFrameworkException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -17,12 +18,13 @@ public class TestCaseExecutor {
 
     public void run() throws TestFrameworkException, IllegalAccessException, InstantiationException, InvocationTargetException {
         try {
-
             for (Method testMethod : testCase.getTestMethods()) {
-                Object instance = createInstance();
-                runBefore(instance, testCase.getBeforeMethod());
-                runTest(instance, testMethod);
-                runAfter(instance, testCase.getAfterMethod());
+                if (!testMethod.isAnnotationPresent(Ignore.class)) {
+                    Object instance = createInstance();
+                    runBefore(instance, testCase.getBeforeMethod());
+                    runTest(instance, testMethod);
+                    runAfter(instance, testCase.getAfterMethod());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
