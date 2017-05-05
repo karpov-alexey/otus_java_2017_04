@@ -10,6 +10,13 @@ import java.lang.reflect.InvocationTargetException;
 import static org.mockito.Mockito.*;
 
 public class TestCaseExecutorTest {
+
+
+    @Test(expected = ru.otus.test_framework.exceptions.TestFrameworkException.class)
+    public void createExecutor_False() throws TestFrameworkException {
+        TestCaseExecutor testCaseExecutor = new TestCaseExecutor(null);
+    }
+
     @Test
     public void runExecutor() throws TestFrameworkException, IllegalAccessException, InvocationTargetException, InstantiationException {
         CommonTestClass testClass = spy(new CommonTestClass());

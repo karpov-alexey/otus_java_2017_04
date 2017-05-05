@@ -1,8 +1,21 @@
 package ru.otus.example;
 
-public class ExampleClass {
-    private void func1() {};
+import java.util.ArrayList;
+import java.util.List;
 
-    @Deprecated
-    public void func2() {};
+public class ExampleClass {
+
+    List<String> stringList = new ArrayList<>();
+
+    public int getSize()
+    {
+        return  stringList.size();
+    }
+
+    public boolean add(String string)
+    {
+        stringList.add(string);
+        return true;
+    }
+
 }

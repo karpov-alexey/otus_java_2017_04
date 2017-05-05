@@ -16,4 +16,5 @@ public final class Assert {
     public static void assertNotNull(String message, Object obj) {
         assertTrue(message,obj != null);
     }
+
 }

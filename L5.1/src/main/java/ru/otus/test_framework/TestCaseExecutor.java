@@ -11,12 +11,17 @@ public class TestCaseExecutor {
     TestCase testCase = null;
 
 
-    public TestCaseExecutor(TestCase testCase)
-    {
-        this.testCase = testCase;
+    public TestCaseExecutor(TestCase testCase) throws TestFrameworkException {
+        if (testCase != null) {
+            this.testCase = testCase;
+        }
+        else
+        {
+            throw new TestFrameworkException("Test case failed");
+        }
     }
 
-    public void run() throws TestFrameworkException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    public void run() throws TestFrameworkException {
         try {
             for (Method testMethod : testCase.getTestMethods()) {
                 if (!testMethod.isAnnotationPresent(Ignore.class)) {
@@ -26,9 +31,13 @@ public class TestCaseExecutor {
                     runAfter(instance, testCase.getAfterMethod());
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (TestFrameworkException e) {
             throw e;
+        } catch (Exception e)
+        {
+            TestFrameworkException exception = new TestFrameworkException("");
+            exception.initCause(e);
+            throw  exception;
         }
 
     }

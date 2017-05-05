@@ -11,7 +11,8 @@ public class MyTestFramework {
     public  MyTestFramework(String[] args) throws Exception {
         for (String className : args)
         {
-            testCases.add(new TestCase(className));
+            if(className != null && !className.isEmpty())
+                testCases.add(new TestCase(className));
         }
     }
 
