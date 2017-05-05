@@ -52,7 +52,6 @@ public class TestCaseTest {
     public void getManyTestMethods() throws TestFrameworkException {
         TestCase testCase = new TestCase("ru.otus.test_framework.test_data.CommonTestClass");
         org.junit.Assert.assertEquals("counter test methods", 3, testCase.getTestMethods().size());
-        //check name
     }
 
 

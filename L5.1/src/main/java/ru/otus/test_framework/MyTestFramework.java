@@ -6,7 +6,7 @@ import java.util.List;
 
 public class MyTestFramework {
 
-    List<TestCase> testCases = new ArrayList<>();
+    private List<TestCase> testCases = new ArrayList<>();
 
     public  MyTestFramework(String[] args) throws Exception {
         for (String className : args)
@@ -17,7 +17,6 @@ public class MyTestFramework {
     }
 
     public void run() throws Exception {
-
         if (testCases.isEmpty())
         {
             System.out.println("Tests not found");

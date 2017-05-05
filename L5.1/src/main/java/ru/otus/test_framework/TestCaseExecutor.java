@@ -8,15 +8,13 @@ import java.lang.reflect.Method;
 
 public class TestCaseExecutor {
 
-    TestCase testCase = null;
-
+    private TestCase testCase = null;
 
     public TestCaseExecutor(TestCase testCase) throws TestFrameworkException {
         if (testCase != null) {
             this.testCase = testCase;
         }
-        else
-        {
+        else {
             throw new TestFrameworkException("Test case failed");
         }
     }

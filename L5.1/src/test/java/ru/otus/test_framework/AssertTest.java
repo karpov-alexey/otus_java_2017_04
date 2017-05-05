@@ -25,6 +25,6 @@ public class AssertTest {
 
     @Test(expected = java.lang.AssertionError.class)
     public void assertNotNull_False() {
-        Assert.assertNotNull("value is ot null", null);
+        Assert.assertNotNull("value is not null", null);
     }
 }

@@ -57,7 +57,7 @@ public class TestCase {
 
         } else {
             beforeMethod = null;
-            throw new TestFrameworkException("Found too more before methods:" + beforeMethods.size());
+            throw new TestFrameworkException("Too more before methods: " + beforeMethods.size());
         }
 
         return beforeMethod;
@@ -73,10 +73,9 @@ public class TestCase {
             afterMethods = null;
         } else if (afterMethods.size() == 1) {
             afterMethod = afterMethods.get(0);
-
         } else {
             afterMethod = null;
-            throw new TestFrameworkException("Found too more after methods:" + afterMethods.size());
+            throw new TestFrameworkException("Too more after methods: " + afterMethods.size());
         }
 
         return afterMethod;
