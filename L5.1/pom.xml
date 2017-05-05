@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <name>my_test_framework</name>
+    <name>test_framework</name>
 
     <groupId>ru.otus</groupId>
-    <artifactId>my_test_framework</artifactId>
+    <artifactId>test_framework</artifactId>
     <version>1.0</version>
 
 
@@ -17,6 +17,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
         </dependency>
     </dependencies>
 
@@ -48,7 +53,7 @@
 
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.Main</mainClass>
+                            <mainClass>ru.otus.example.Main</mainClass>
                         </manifest>
                     </archive>
                     

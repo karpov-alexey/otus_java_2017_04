@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 appPath="target/gc_statistics.jar"
-objectCount="5000000";
+objectCount="10000000";
 cycleCount="10";
 
 options=(

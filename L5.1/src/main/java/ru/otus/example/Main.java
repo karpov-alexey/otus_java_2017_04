@@ -1,11 +1,6 @@
-package ru.otus;
+package ru.otus.example;
 
-
-import ru.otus.my_test_framework.MyTestFramework;
-
-/**
- * Created by Alexey on 01.04.2017.
- */
+import ru.otus.test_framework.MyTestFramework;
 
 public class Main  {
 
