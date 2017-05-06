@@ -29,6 +29,11 @@ public class TestCase {
 
     }
 
+    public TestCase(Class<?> clazz) throws TestFrameworkException {
+            this.clazz = clazz;
+    }
+
+
     public Class<?> getTestClass()
     {
         return clazz;
