@@ -36,7 +36,6 @@ class SimpleAtm implements Atm {
     private Listener saveListener = new Listener() {
         @Override
         public void handleEvent(Event event) {
-            System.out.println("id = " + id + ": SAVE_EVENT");
             saveState();
         }
     };
@@ -44,7 +43,6 @@ class SimpleAtm implements Atm {
     private Listener restoreListener = new Listener() {
         @Override
         public void handleEvent(Event event) {
-            System.out.println("id = " + id + ": RESTORE_EVENT");
             restoreState();
         }
     };

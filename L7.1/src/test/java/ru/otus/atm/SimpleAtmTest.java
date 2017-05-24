@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.otus.algorithms.MinBanknotesWithdraw;
 import ru.otus.exception.AtmException;
+import ru.otus.observer.AtmNotifier;
+import ru.otus.observer.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,5 +87,32 @@ public class SimpleAtmTest {
         atm.addMoney(1000, 1);
 
         Assert.assertEquals(1668 * 2, atm.getBalance());
+    }
+
+    @Test
+    public void restoreEvent() throws Exception {
+        AtmBuilder atmBuilder = new AtmBuilder();
+        atmBuilder.setGetBanknotesAlgorithm(new MinBanknotesWithdraw());
+        atmBuilder.setId(1);
+
+        List<Cell> cellList = new ArrayList<>();
+        cellList.add(new Cell(1, 10));
+        cellList.add(new Cell(2, 10));
+        cellList.add(new Cell(5, 10));
+        cellList.add(new Cell(10, 10));
+        cellList.add(new Cell(50, 10));
+        cellList.add(new Cell(100, 10));
+        cellList.add(new Cell(500, 10));
+        cellList.add(new Cell(1000, 10));
+        atmBuilder.setCells(cellList);
+
+        atm = atmBuilder.createAtm();
+
+        Assert.assertEquals(16680, atm.getBalance());
+        atm.withdraw(100);
+        Assert.assertEquals(16680 - 100, atm.getBalance());
+
+        AtmNotifier.getNotifier().notify(Event.RESTORE_STATE);
+        Assert.assertEquals(16680, atm.getBalance());
     }
 }

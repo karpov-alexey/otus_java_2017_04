@@ -9,9 +9,9 @@ import java.util.List;
  * Created by Alexey on 16.05.2017.
  */
 public class AtmBuilder {
-    WithdrawAlgorithm withdrawAlgorithm = null;
-    int id = -1;
-    List<Cell> cells = null;
+    private WithdrawAlgorithm withdrawAlgorithm = null;
+    private int id = -1;
+    private List<Cell> cells = null;
 
     public void setGetBanknotesAlgorithm(WithdrawAlgorithm withdrawAlgorithm) {
         this.withdrawAlgorithm = withdrawAlgorithm;
