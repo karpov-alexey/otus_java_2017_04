@@ -1,6 +1,5 @@
 package ru.otus;
 
-import ru.otus.department.AtmDepartment;
 import ru.otus.exception.AtmException;
 
 /**
@@ -11,4 +10,5 @@ public class Main {
     public static void main(String[] args) throws AtmException {
         new AtmDepartmentExample().run();
     }
+
 }

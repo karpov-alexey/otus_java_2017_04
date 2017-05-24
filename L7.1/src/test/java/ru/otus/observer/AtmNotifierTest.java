@@ -35,9 +35,7 @@ public class AtmNotifierTest {
         AtmNotifier.getNotifier().notify(Event.RESTORE_STATE);
         verify(listener, times(3)).handleEvent(Event.SAVE_STATE);
         verify(listener, times(1)).handleEvent(Event.RESTORE_STATE);
-
     }
-
 }
 
 

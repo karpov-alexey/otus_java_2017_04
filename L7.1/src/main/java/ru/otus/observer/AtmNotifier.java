@@ -25,7 +25,6 @@ public class AtmNotifier implements Notifier {
             list = new LinkedList<>();
             eventMap.put(event, list);
         }
-
         list.add(listener);
     }
 

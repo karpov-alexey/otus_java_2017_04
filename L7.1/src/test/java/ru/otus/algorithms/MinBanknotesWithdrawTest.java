@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class MinBanknotesWithdrawTest {
 
-    Cells cells = null;
+    private Cells cells = null;
 
     @Before
     public void beforeTest() {
@@ -38,9 +38,9 @@ public class MinBanknotesWithdrawTest {
         Map<Integer, Integer> expect = new HashMap<>();
         Map<Integer, Integer> result = null;
 
-        cells.addMoney(1, 10);
+        cells.addMoney(1, 0);
         cells.addMoney(2, 10);
-        cells.addMoney(5, 10);
+        cells.addMoney(5, 0);
         cells.addMoney(10, 10);
         cells.addMoney(50, 10);
         cells.addMoney(100, 10);
@@ -62,6 +62,11 @@ public class MinBanknotesWithdrawTest {
         expect.clear();
         expect.put(500, 1);
         Assert.assertEquals(expect, result);
-    }
 
+        result = new MinBanknotesWithdraw().withdraw(501, cells);
+        Assert.assertNull(result);
+
+        result = new MinBanknotesWithdraw().withdraw(0, cells);
+        Assert.assertNull(result);
+    }
 }

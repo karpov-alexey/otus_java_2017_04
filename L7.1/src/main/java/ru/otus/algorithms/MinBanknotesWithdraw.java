@@ -19,8 +19,7 @@ public class MinBanknotesWithdraw implements WithdrawAlgorithm {
         int[] ammounts = new int[size];
 
         int cnt = 0;
-        for (Cell cell : cells)
-        {
+        for (Cell cell : cells) {
             values[cnt] = cell.getNominal();
             ammounts[cnt] = cell.getCount();
             ++cnt;
@@ -32,8 +31,7 @@ public class MinBanknotesWithdraw implements WithdrawAlgorithm {
         int index = -1;
         for (int i = 0; i < results.size(); ++i){
             Integer banknoteCounter = 0;
-            for (Integer count : results.get(i))
-            {
+            for (Integer count : results.get(i)) {
                 banknoteCounter += count;
             }
 
@@ -47,22 +45,18 @@ public class MinBanknotesWithdraw implements WithdrawAlgorithm {
         }
 
         Map<Integer, Integer> map = null;
-
-        if (index >= 0)
-        {
+        if (index >= 0) {
             Integer[] res = results.get(index);
             map = new HashMap<>();
-            for (int i = 0; i < res.length; ++i)
-            {
+            for (int i = 0; i < res.length; ++i) {
                 if (res[i] > 0)
                     map.put(values[i], res[i]);
             }
         }
-
         return map;
     }
 
-    public List<Integer[]> solutions(int[] values, int[] ammounts, int[] variation, int price, int position){
+    private List<Integer[]> solutions(int[] values, int[] ammounts, int[] variation, int price, int position){
         List<Integer[]> list = new ArrayList<>();
         int value = compute(values, variation);
         if (value < price){
@@ -82,7 +76,7 @@ public class MinBanknotesWithdraw implements WithdrawAlgorithm {
         return list;
     }
 
-    public int compute(int[] values, int[] variation){
+    private int compute(int[] values, int[] variation){
         int ret = 0;
         for (int i = 0; i < variation.length; i++) {
             ret += values[i] * variation[i];
@@ -90,12 +84,11 @@ public class MinBanknotesWithdraw implements WithdrawAlgorithm {
         return ret;
     }
 
-    public Integer[] myCopy(int[] ar){
+    private Integer[] myCopy(int[] ar){
         Integer[] ret = new Integer[ar.length];
         for (int i = 0; i < ar.length; i++) {
             ret[i] = ar[i];
         }
         return ret;
     }
-
 }
